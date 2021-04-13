@@ -39,3 +39,8 @@ a:active {
 	margin: 3px;
 	object-fit: cover;
 }
+
+.view_image{
+	width: auto;
+	height: 70%;
+}

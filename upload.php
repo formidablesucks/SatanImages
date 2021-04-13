@@ -1,12 +1,5 @@
 <?php
-require("database.php");
-$_DB = new database([
-	"username" => "administrator",
-	"password" => "akH5u8D9AaVqspPv",
-	"database" => "satanimages",
-	"host" => "localhost",
-	
-]);
+require 'cred.php';
 
 $bytes = bin2hex(random_bytes(16));
 
@@ -82,12 +75,14 @@ if ($uploadOk == 0) {
 	
 	
 	
-		$_DB->sql("INSERT INTO images (image_id,file,hash,oghash) VALUES (:image_id,:file,:hash, :oghash)")->prepare([
+		$_DB->sql("INSERT INTO images (image_id,file,hash,oghash,uploader_ip,uploader_browser) VALUES (:image_id,:file,:hash,:oghash,:uploader_ip,:uploader_browser)")->prepare([
 		
 			":image_id" => $bytes2,
 			":file" => $bytes,
 			":hash" => $md5,
-			":oghash" => $ogmd5
+			":oghash" => $ogmd5,
+			":uploader_ip" => $_SERVER['REMOTE_ADDR'],
+			":uploader_browser" => $_SERVER['HTTP_USER_AGENT']
 		
 		])->set();
 

@@ -3,15 +3,7 @@
 $_URL = explode("?", substr($_SERVER['REQUEST_URI'], 1));
 $_URL = explode("/", $_URL[0]);
 
-require("database.php");
-
-$_DB = new database([
-	"username" => "administrator",
-	"password" => "akH5u8D9AaVqspPv",
-	"database" => "satanimages",
-	"host" => "localhost",
-	
-]);
+require 'cred.php';
 ?>
 <html>
 <head>
@@ -42,7 +34,7 @@ if (isset($_GET["p"]) && is_numeric($_GET["p"]) && $_GET["p"] > 0){
 } else {
 	$page = 0;
 }
-$limit = 36;
+$limit = 48;
 $offset = $limit * $page;
 
 $images = $_DB->sql("SELECT * FROM images ORDER BY id DESC LIMIT {$limit} OFFSET {$offset}")
@@ -51,7 +43,7 @@ $images = $_DB->sql("SELECT * FROM images ORDER BY id DESC LIMIT {$limit} OFFSET
 
 if ($images)
 	foreach($images as $image) {
-		echo "<a href='uploads/{$image['file']}.jpg'><img class='uploaded' src='uploads/{$image['file']}.jpg'></a>";
+		echo "<a href='view.php?i={$image['image_id']}'><img class='uploaded' src='uploads/{$image['file']}.jpg'></a>";
 	}
 else
 	echo "There are no images on this page! <br>";
